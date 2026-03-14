@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
 
 from fastapi import Form
@@ -8,17 +7,9 @@ from twilio.twiml.messaging_response import MessagingResponse
 
 app = FastAPI()
 
-# Google Sheets connection
-scope = [
-    "https://spreadsheets.google.com/feeds",
-    "https://www.googleapis.com/auth/drive"
-]
+import gspread
 
-creds = ServiceAccountCredentials.from_json_keyfile_name(
-    "milk-bot-490207-7269767d1492.json", scope
-)
-
-client = gspread.authorize(creds)
+client = gspread.service_account(filename="milk-bot-490207-7269767d1492.json")
 
 sheet = client.open("milk_database").sheet1
 
